@@ -2,7 +2,7 @@
 ETag and code originally developed by [Eli Bridge](https://github.com/Eli-S-Bridge) and [Jay Wilhelm](https://github.com/jaywilhelm).
 Revisions by [Ben Duggan](https://github.com/BenSDuggan).  You can email with questions at [bendugga@iu.edu](mailto:bendugga@iu.edu).
 
-## **__Status: Testing code**__
+## **_Status: Testing code_**
 
 * [Original cdoe with instillation help](https://github.com/Eli-S-Bridge/ETAG_4095_Apr2018)
 
