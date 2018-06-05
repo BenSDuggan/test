@@ -15,3 +15,4 @@ Revisions by [Ben Duggan](https://github.com/BenSDuggan).  You can email with qu
 * Log file: There is a log file added to the board.  This is like the one from the Gen. 2.  The file saves when logging is started and stopped.
 * Create data and log file at initial startup:  The data and log files are created immediately when the board is turned on, even if nothing is in them.
 * Change file name to readerID + data/log: The file name scheme changed from just one that says datalog.txt to (readerID + "data.txt") for the data file and (readerID + "log.txt") for the log file.
+~~a~~
