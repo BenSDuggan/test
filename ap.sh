@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Define colors used in the script
-COL_DEFAULT='\033[0;37'
-COL_LG='\033[1;32'
-COL_LB='\033[1;34'
-COL_LR='\033[1;31'
+COL_DEFAULT='\033[0;37m'
+COL_LG='\033[1;32m'
+COL_LB='\033[1;34m'
+COL_LR='\033[1;31m'
 
 
 echo -e "${COL_LB} Starting installation (this will take a while)... ${COL_DEFAULT}"
@@ -14,7 +14,7 @@ echo -e "${COL_LB} For recomended install type y (yes) when ever asked (Y/n) ${C
 echo -e "${COL_LG} Starting step 6: Setting up access point(AP) ${COL_DEFAULT}"
 # Setup access point
 echo -e "Installing dnsmasq and hostapd"
-sudo apt-get install dnsmasq hostapd -Y
+sudo apt-get -y install dnsmasq hostapd
 sudo systemctl stop dnsmasq
 sudo systemctl stop hostapd
 
