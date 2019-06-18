@@ -1,0 +1,132 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Radio &#8212; RFID Network 0.9.8 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="radio">
+<h1>Radio<a class="headerlink" href="#radio" title="Permalink to this headline">¶</a></h1>
+<p>For this system to work every device in the network needs to communicate with each other.  This is done using the nRF24L01+PA+LNA Wireless Transceiver or shortened to the nRF24.  This is a 2.4-2.48 GHz transceiver which means that it can send and receive data at the same frequency your WiFi uses.  Each radio has the option of using 126 different channels (different field sites) different transmission speeds (250 KBPS, 1 MBPS and 2 MBPS) and four different power settings.  It can connect to six other radios (expanded to 127 in software) and has a lessthan 1 mA sleep power consumption.  You can find out more about the radios by viewing the <a class="reference external" href="https://www.sparkfun.com/datasheets/Components/SMD/nRF24L01Pluss_Preliminary_Product_Specification_v1_0.pdf">datasheet</a>.</p>
+<p>There are two common versions of the nRF24: short range and long range (see long range below).  From my testing the short range version are inadequate under almost all circumstances so only the long range should be used.  The long range model has an advertised range of 1000 m but I have only tested up to 600 m.  To allow for greater range and more than six radios to be connected a software library is used which creates a mesh network.  This is explained in section 4.3.  These radios and the RFIDNetwork class rely on the SPI protocol, so while it has only been tested on Arduinos and Raspberry Pis it should work on other microcontrollers that support SPI. You can also find everything needed with approximate pricing in the appendix (7.1).</p>
+<p>The radio comes with eight 2.54 mm pins called male headers.  The recommended way to connect the radio is by soldering male headers to the microcontroller and then connecting a wire with female headers between the microcontroller and radio.  See the image below.  A modification needs to be made to the radios to ensure reliable performance due to an inadequate supply of power to the IC of the radio.  This can be done by buying a power module (seen in the image below) or soldering a 4.7 <span class="math notranslate nohighlight">\(\mu\)</span> F-10 <span class="math notranslate nohighlight">\(\mu\)</span> F capacitor between the ground and VCC pin (1 and 2) on the radio module.</p>
+<div class="figure align-center" id="id1">
+<img alt="../_images/ETAG_Assembled.jpg" src="../_images/ETAG_Assembled.jpg" />
+<p class="caption"><span class="caption-text">ETAG with headers soldered on and female jumper wire connecting long range nRF24 with power module to board.</span></p>
+</div>
+<div class="section" id="setting-up-the-radio">
+<h2>Setting up the radio<a class="headerlink" href="#setting-up-the-radio" title="Permalink to this headline">¶</a></h2>
+<p>The radio will come in a static protector bag.  Take it out of the bag and screw the antenna onto the receptacle.  It should look like the image above.  To ensure reliable performance either a power module or capacitor needs to be added.  The power module makes it easier to switch in the field but is more expensive and uses more power (due to having a power indicator LED)than the capacitor.  The capacitor requires soldering but is cheaper and should result in the same performance.</p>
+<p><strong>Using the power module:</strong>
+Notice that there are two rows of 4 male pins on the radio and 2 rows of 4 female pins on the power module.  Insert the radio into the power module so that all pins are seated.  Next connect 7 female wires to the wires on the power module.  Make sure that every pin on the power module is connected except for the pin labeled IRQ (looks like RO).  Make sure that you only plug the <strong>VCC (pin 2) into 5V</strong> otherwise the module might get enough power.  This should look like the picture above.</p>
+<p><strong>Using the capacitors:</strong>
+It is recommended to use a 4.7-10 capacitor with the radio.  Solder the capacitor between pins 1 and 2 of the top of the radio (pin 1 has the white square around it and 2 is the the right, in the different row of 4 pins).  If you’re using an electrolytic capacitor then make sure the negative lead is soldered to VCC.  Next connect 7 female wires to the wires on the radio.  You don’t need to attached the IRQ (pin 8, located farthest away from pin 1 and on the side closer to the antenna).  Make sure that you plug the <strong>VCC (pin 2) into 3.3V</strong> otherwise the module might get damaged.  This should look like the picture below:</p>
+<blockquote>
+<div>colorbox{pink}{long range with capacitor and wires}
+%includegraphics[width=6in]{nRF24_radioCap}\
+Long range nRF24 radio with capacitor and wires attached.</div></blockquote>
+<div class="figure align-center" id="id2">
+<img alt="../_images/nRF24_pinout.png" src="../_images/nRF24_pinout.png" />
+<p class="caption"><span class="caption-text">nRF24 pin layout with numbering and purpose.</span></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">RFID Network</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Ben Duggan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/setup/radios.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

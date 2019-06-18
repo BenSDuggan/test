@@ -1,0 +1,17 @@
+
+
+RFID Network Documentation
+==========================
+
+An opensource system for wirelessly collecting, monitoring and analyzing RFID data. The goal of the system to provide a way to collect data off of RFID readers wirellsy, store them on a server and provide annalysis and managment tool for that data.
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+ 
+   overview
+   setup/setup
+   usage
+   debug
+

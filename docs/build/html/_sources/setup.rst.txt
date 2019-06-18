@@ -1,0 +1,22 @@
+.. _setup:
+
+Setup Guide
+===========
+
+There are two seporate things that need to be setup: the server (Raspberry Pi) and RFID readers.  It's a good idea to understand how the system works before trying to install it.  The :ref:`overview<overview>` gives a good explination of this.  Both of the setups can be done on windows, Mac or Linux but a basic understanding of Linux or commandline tools will be helpful for the Raspberry Pi setup.
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+ 
+   radios
+
+
+
+
+
+
+This section shows how to install the system.  While I have tried to make the system easy to install, there are some things which cannot be avoided like soldering.  Most of the things that you will find difficult are things lots of people have had to learn on their own (including me) so you shouldn't be disgruntled.  If you get stuck with something you can probably find the answer with a quick Google search.  Most things are explained thoroughly but the one thing I can't help with is teaching you to solder.  Soldering is the technique to electrically connect two wires.  If you haven't soldered before just watch this video `<https://www.youtube.com/watch?v=BLfXXRfRIzY>` (or any other you can find) and  practice on some spare wires.  You can pick up a cheap soldering iron on amazon for less than $30.
+With that said if you have any problems you can send me an email and I'll try to help.  I've also made a video showing the entire installation process.  You can find it here: \url{}. \colorbox{pink}{make video}

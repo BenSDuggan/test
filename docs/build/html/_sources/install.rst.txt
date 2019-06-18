@@ -1,0 +1,6 @@
+Install Guide
+=============
+
+Here is how you can install.
+
+* Node
